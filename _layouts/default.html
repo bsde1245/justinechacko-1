@@ -1,0 +1,145 @@
+---
+layout: none 
+---
+
+<!doctype html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="UTF-8">
+  
+    <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+  
+    <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ page.content | strip_html | strip | strip_newlines | truncate: 160 }}{% endif %}">
+  
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+    <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ site.url }}/feed.xml">
+  
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+    <meta property="og:title" content="{% if page.title %}{{ page.title }}{% elsif page.headline %}{{ page.headline }}{% else %}{{ site.title }}{% endif %}">
+    <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ page.content | strip_html | strip | strip_newlines | truncate: 160 }}{% endif %}">
+    <meta property="og:image" content="{% if page.facebook_image_path %}{{ page.facebook_image_path }}{% elsif page.featured_image_path %}{{ page.featured_image_path }}{% else %}{{ site.url }}/images/default.jpg{% endif %}">
+  
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+
+
+
+
+    <link rel="manifest" href="{{ site.url }}/manifest.json">
+
+    <script src="{{ site.url }}/js/sw-reg.js"></script>
+    <script src="{{ site.url }}/js/pwa-app.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Martel:200,700,900|Open+Sans:400,700|Roboto+Condensed:700">
+    <link rel="stylesheet" href="{{ site.url }}/css/main.css">
+    <!-- Font Awesome -->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.0.0/mdb.min.css"
+    rel="stylesheet"
+    />
+  </head>
+
+  <body {% if page.url == '/' %}class="home{% if page.sidebar_option != 'sidebar' %} full-width-content{% endif %}" {% elsif page.url contains '/blog/' or page.layout == 'archive' %}class="archive full-width-content" {% elsif page.url contains '/products/' %}class="product" {% elsif page.sidebar_option != 'sidebar' %}class="full-width-content" {% endif %}itemscope itemtype="http://schema.org/WebPage">
+
+    <div class="site-container">
+
+      <!--[if lte IE 9]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+      <![endif]-->
+
+      <header class="site-header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="wrap">
+      
+          <div class="title-area">
+            <h1 class="site-title" itemprop="headline"><a href="{{ site.url }}/">{{ site.title }}</a></h1>
+          </div>
+      
+          <nav class="nav-primary" itemscope itemtype="http://schema.org/SiteNavigationElement" aria-label="Main navigation">
+            <ul class="monsoon-nav-menu">
+		   <li class="menu-item active"> <a href="#" onclick="addToHomeScreen()" class="">Install App</a></li>          
+		   <li class="menu-item active"> <a href="{{ site.url }}/blog" class="">Blog</a></li>          
+              {% for menu-item in site.data.navigation %}
+          
+                <li class="menu-item{% if menu-item.url == page.url %} active{% endif %}">
+                  <a href="{{ site.url }}{{ menu-item.url }}">{{ menu-item.title }}</a>
+          
+                  {% if menu-item.sub-menu-items %}
+                  <ul class="sub-menu">
+          
+                    {% for sub-menu-item in menu-item.sub-menu-items %}
+                      <li class="menu-item"><a href="{{ site.url }}{{ sub-menu-item.url }}">{{ sub-menu-item.title }}</a></li>
+                    {% endfor %}
+          
+                  </ul>
+                  {% endif %}
+          
+                </li>
+          
+              {% endfor %}
+          
+              <li class="menu-item cart{% if page.url == '/cart/' %} active{% endif %}">
+                <a class="btn btn-warning px-4" href="{{ site.url }}/cart/" id="cart-menu">Cart <span class="fa fa-shopping-cart"></span> (<span class="simpleCart_quantity"></span>)</a>
+              </li>
+          
+            </ul>
+          </nav>
+      
+          <nav class="nav-secondary mobile-show" itemscope itemtype="http://schema.org/SiteNavigationElement" aria-label="Secondary navigation">
+            <ul class="monsoon-nav-menu">
+              <li class="menu-item">
+                <a href="{{ site.url }}/cart/" id="cart-menu">Cart <span class="fa fa-shopping-cart"></span> (<span class="simpleCart_quantity"></span>)</a>
+              </li>
+            </ul>
+          </nav>
+      
+        </div>
+      </header>
+
+      {{ content }}
+
+      
+
+      <div class="text-center">  <a href="#" onclick="addToHomeScreen()" class="btn btn-warning me-2 my-2 rounded-pill" type="button">App</a> </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ site.url }}/js/simpleCart.js"></script>
+    <script async src="{{ site.url }}/js/main.js"></script>
+    <script async src="{{ site.url }}/js/responsive-menu.js"></script>
+    <!-- MDB -->
+    <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.0.0/mdb.min.js"
+    ></script>
+    {% if page.url contains '/products/' %}
+      <script async src="{{ site.url }}/js/style-picker.js"></script>
+      <script async src="{{ site.url }}/js/add-to-cart.js"></script>
+    {% endif %}
+
+    {% if page.url == '/checkout/' %}
+      <script async src="{{ site.url }}/js/checkout.js"></script>
+    {% endif %}
+    {% if page.url == '/checkout_whatsapp/' %}
+    <script async src="{{ site.url }}/js/checkout_whatsapp.js"></script>
+    {% endif %}
+  </body>
+
+</html>
